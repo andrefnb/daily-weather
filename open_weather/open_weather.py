@@ -75,7 +75,8 @@ def create_connection_if_not_exists(conn_id, conn_type, host, login, password):
 
 # Create api key variable for the weather api TODO put this in a init file?
 api_var_name = "weather-api-key"
-create_variable_from_file(api_var_name, "weather_api_key.txt")
+api_key_path = current_file_path.parents[1].joinpath('weather_api_key.txt').resolve()
+create_variable_from_file(api_var_name, api_key_path)
 # Mask api key
 mask_secret(Variable.get(api_var_name))
 
