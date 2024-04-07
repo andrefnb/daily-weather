@@ -1,3 +1,5 @@
 
-data/*
-weather_api_key.txt
+dags/open_weather/data/*
+dags/open_weather/config/weather_api_key.txt
+
+logs/*
