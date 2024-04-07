@@ -50,7 +50,7 @@ The user and password for airflow are the same: `airflow` - this can be changed 
 Search for the DAG named `open_weather_app` and turn it on to start the pipeline.
 
 This is comprised of 3 tasks, one that downloads the files according to configuration, one that inserts in the mongo database, and another that removes the files from the staging area.
-All these tasks are sequentially dependant and run daily.
+All these tasks are sequentially dependant, and run daily.
 
 ## Next steps
 - Add tests (high priority)
