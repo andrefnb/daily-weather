@@ -15,4 +15,4 @@ Search for the dag named open_weather_app and turn it on to start the pipeline.
 Next steps:
 - Add error handling for lack of keys
 - Add mongo secrets for docker
-. Change airflow username and password for a real configuration
+- Change airflow username and password for a real configuration
