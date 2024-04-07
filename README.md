@@ -10,3 +10,9 @@ In order to make open weather API requests, the key must be added as the followi
 To access the airflow client go to http://localhost:8080/.
 The user and pass for airflow are both: airflow
 Search for the dag named open_weather_app and turn it on to start the pipeline.
+
+
+Next steps:
+- Add error handling for lack of keys
+- Add mongo secrets for docker
+. Change airflow username and password for a real configuration
