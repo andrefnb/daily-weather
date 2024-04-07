@@ -1,18 +1,59 @@
 # daily-weather
 A simple daily weather pipeline that retrieves daily data from the openweathermap API to local json files and inserts it into a mongodb database, finally the local staging files are deleted 
 
-To run the project, one needs to execute the following commands in the project root:
-docker compose up --build -d
+## Intro
+This project is comprised of the following structure:
+```bash
+.
+├── airflow
+│   ├── config
+│   ├── dags
+│   │   └── open_weather
+│   │       ├── config
+│   │       │   ├── open-weather.json
+│   │       │   └── weather_api_key.txt
+│   │       ├── data
+│   │       └── open_weather.py
+│   ├── Dockerfile
+│   ├── logs
+│   └── plugins
+├── docker-compose.yaml
+├── mongo
+│   └── mongo-init.js
+└── README.md
+```
 
-To config the cities which to retrieve data from, the property country_list in the dags/open_weather/config/open-weather.json must be edited
-In order to make open weather API requests, the key must be added as the following file: dags/open_weather/config/weather_api_key.txt
+In a nutshell, the bulk of this project is inside the "airflow" directory.
+
+This is where airflow is mapped to go fetch what it needs: both the needed folders, such as config, dags, logs, and 
+plugins, as well as the pipeline code that's needed for creating the DAGs themselves.
+
+A database is important to store the weather data after being ingested, and since it's in a document-like 
+structure, a non-relational database is being used - in this case, mongoDB.
+
+A docker-compose file makes sure that all the required images are created and configured correctly to interact with 
+each other for the needed operations. That way, all a user needs to do is build the images, start the containers 
+and not worry about anything else. They can now just go ahead and use airflow on their browser.
+
+## Setup
+To run the project, one needs to execute the following commands in the project root:
+`docker compose up --build -d`
+
+To select which cities the data is to be retrieved from, the property `country_list` in the `./airflow/dags/open_weather/config/open-weather.json` file must be edited.
+Add, edit, or remove whatever cities you want.
+
+In order to make open weather API requests, the file `./airflow/dags/open_weather/config/weather_api_key.txt` must be 
+created with the API key to be used - it's enough to have just its value, nothing else is needed.
 
 To access the airflow client go to http://localhost:8080/.
-The user and pass for airflow are both: airflow
-Search for the dag named open_weather_app and turn it on to start the pipeline.
+The user and password for airflow are the same: `airflow` - this can be changed on the `docker-compose` file.
+Search for the DAG named `open_weather_app` and turn it on to start the pipeline.
 
+This is comprised of 3 tasks, one that downloads the files according to configuration, one that inserts in the mongo database, and another that removes the files from the staging area.
+All these tasks are sequentially dependant, and run daily.
 
-Next steps:
+## Next steps
+- Add tests (high priority)
 - Add error handling for lack of keys
 - Add mongo secrets for docker
 - Change airflow username and password for a real configuration
