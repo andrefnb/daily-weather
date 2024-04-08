@@ -18,6 +18,7 @@ This project is comprised of the following structure:
 │   ├── logs
 │   └── plugins
 ├── docker-compose.yaml
+├── .env
 ├── mongo
 │   └── mongo-init.js
 └── README.md
@@ -25,15 +26,13 @@ This project is comprised of the following structure:
 
 In a nutshell, the bulk of this project is inside the "airflow" directory.
 
-This is where airflow is mapped to go fetch what it needs: both the needed folders, such as config, dags, logs, and 
-plugins, as well as the pipeline code that's needed for creating the DAGs themselves.
+This is where airflow is mapped to go fetch what it needs: both the needed folders, such as config, dags, logs, and plugins, as well as the pipeline code that's needed for creating the DAGs themselves.
 
-A database is important to store the weather data after being ingested, and since it's in a document-like 
-structure, a non-relational database is being used - in this case, mongoDB.
+A database is important to store the weather data after being ingested, and since it's in a document-like structure, a non-relational database is being used - in this case, mongoDB.
 
-A docker-compose file makes sure that all the required images are created and configured correctly to interact with 
-each other for the needed operations. That way, all a user needs to do is build the images, start the containers 
-and not worry about anything else. They can now just go ahead and use airflow on their browser.
+A docker-compose file makes sure that all the required images are created and configured correctly to interact with each other for the needed operations. That way, all a user needs to do is build the images, start the containers and not worry about anything else. They can now just go ahead and use airflow on their browser.
+
+The `.env` file defines needed airflow variables like the airflow user id and airflow project directory.
 
 ## Setup
 To run the project, one needs to execute the following commands in the project root:
