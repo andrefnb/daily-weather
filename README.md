@@ -13,6 +13,7 @@ This project is comprised of the following structure:
 │   │       │   ├── open-weather.json
 │   │       │   └── weather_api_key.txt
 │   │       ├── data
+│   │       ├── utils.py
 │   │       └── open_weather.py
 │   ├── Dockerfile
 │   ├── logs
@@ -21,6 +22,10 @@ This project is comprised of the following structure:
 ├── .env
 ├── mongo
 │   └── mongo-init.js
+├── tests
+│   ├── data
+│   ├── __init__.py
+│   └── test_open_weather.py
 └── README.md
 ```
 
@@ -34,6 +39,10 @@ A docker-compose file makes sure that all the required images are created and co
 
 The `.env` file defines needed airflow variables like the airflow user id and airflow project directory.
 
+In the tests folder there are python files that test the pipeline functions. 
+Currently there is a test without mocking that runs successfully for a given expected data. There is also another with mocking, but still needs development.
+Mock is important because the public API is being updated regularly, so without mocking we need to update the expected data.
+
 ## Setup
 To run the project, one needs to execute the following commands in the project root:
 `docker compose up --build -d`
@@ -42,7 +51,7 @@ To select which cities the data is to be retrieved from, the property `country_l
 Add, edit, or remove whatever cities you want.
 
 In order to make open weather API requests, the file `./airflow/dags/open_weather/config/weather_api_key.txt` must be 
-created with the API key to be used - it's enough to have just its value, nothing else is needed.
+created with the API key to be usethat was added d - it's enough to have just its value, nothing else is needed.
 
 To access the airflow client go to http://localhost:8080/.
 The user and password for airflow are the same: `airflow` - this can be changed on the `docker-compose` file.
@@ -52,7 +61,8 @@ This is comprised of 3 tasks, one that downloads the files according to configur
 All these tasks are sequentially dependant, and run daily.
 
 ## Next steps
-- Add tests (high priority)
+- Fix the test with mocking and add more tests (high priority)
+- Add a Logger to report information
 - Add error handling for lack of keys
 - Add mongo secrets for docker
 - Change airflow username and password for a real configuration

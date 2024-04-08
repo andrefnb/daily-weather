@@ -4,3 +4,5 @@ airflow/dags/open_weather/data/*
 airflow/dags/open_weather/config/weather_api_key.txt
 
 airflow/logs/*
+
+tests/data/*
