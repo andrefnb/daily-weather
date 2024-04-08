@@ -233,9 +233,6 @@ services:
         mkdir -p /sources/logs /sources/dags /sources/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
         exec /entrypoint airflow version
-        mkdir -p ./dags ./logs ./plugins ./config
-        echo -e "AIRFLOW_UID=$(id -u)" > .env
-        AIRFLOW_UID=50000
     # yamllint enable rule:line-length
     environment:
       <<: *airflow-common-env
