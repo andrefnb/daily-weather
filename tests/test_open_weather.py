@@ -1,8 +1,8 @@
 import json, pathlib
-from unittest.mock import patch, mock_open, MagicMock
+from unittest.mock import patch, mock_open
 from datetime import datetime
 
-from airflow.dags.open_weather.utils import download_weather_data
+from airflow.dags.open_weather.open_weather import download_weather_data
 
 
 def test_download_files_with_mock():
