@@ -13,7 +13,6 @@ This project is comprised of the following structure:
 │   │       │   ├── open-weather.json
 │   │       │   └── weather_api_key.txt
 │   │       ├── data
-│   │       ├── utils.py
 │   │       └── open_weather.py
 │   ├── Dockerfile
 │   ├── logs
@@ -62,6 +61,7 @@ All these tasks are sequentially dependant, and run daily.
 
 ## Next steps
 - Fix the test with mocking and add more tests (high priority)
+- Separate to be tested functions from DAG file
 - Add a Logger to report information
 - Add error handling for lack of keys
 - Add mongo secrets for docker
