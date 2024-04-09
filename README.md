@@ -25,6 +25,7 @@ This project is comprised of the following structure:
 │   ├── data
 │   ├── __init__.py
 │   └── test_open_weather.py
+├── testing_requirements.txt
 └── README.md
 ```
 
@@ -39,8 +40,8 @@ A docker-compose file makes sure that all the required images are created and co
 The `.env` file defines needed airflow variables like the airflow user id and airflow project directory.
 
 In the tests folder there are python files that test the pipeline functions. 
-Currently there is a test without mocking that runs successfully for a given expected data. There is also another with mocking, but still needs development.
-Mock is important because the public API is being updated regularly, so without mocking we need to update the expected data.
+Currently there is one unit test that and mocks the weather API and other system functions like the open command and tests the `download_weather_data` core functionality. The creation of more tests is in the next steps section.
+To test it run pytest in the tests file. A local `venv` with the required packages installed is required, for the tests only (this is more detailed in the Testing section further down). 
 
 ## Setup
 To run the project, one needs to execute the following commands in the project root:
@@ -59,10 +60,20 @@ Search for the DAG named `open_weather_app` and turn it on to start the pipeline
 This is comprised of 3 tasks, one that downloads the files according to configuration, one that inserts in the mongo database, and another that removes the files from the staging area.
 All these tasks are sequentially dependant, and run daily.
 
+## Testing
+Should have a docker container for the tests (it's in the next steps). For now a `testing_requirements.txt` file was created for a venv creation.
+To test make sure you have virtualenv installed and run `virtualenv venv`. Source the venv with `source venv/bin/activate` and install the requirements with `pip install -r requirements.txt`.
+Then, execute `pytest` within the tests folder.
+
 ## Next steps
-- Fix the test with mocking and add more tests (high priority)
-- Separate to be tested functions from DAG file
+- Create docker container for tests
 - Add a Logger to report information
+- Add the airflow config code in an equivalent to a `__init__.py` file for a standard python project
+- Add mongodb db and collection configuration in a config file
+- Add more tests
+- Separate to be tested functions from DAG file
 - Add error handling for lack of keys
 - Add mongo secrets for docker
 - Change airflow username and password for a real configuration
+- Add CICD with tests whenever a pull request is made
+
