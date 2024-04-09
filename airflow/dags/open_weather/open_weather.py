@@ -50,7 +50,7 @@ def reads_file(file_path):
             content = file.read().strip()
             return content
     except FileNotFoundError:
-        print("Error: File not found.")
+        raise Exception(f"Weather API Key not found. Please add the following config file: {file_path}")
 
 
 def create_connection_if_not_exists(conn_id, conn_type, host, port, login, password, schema):
