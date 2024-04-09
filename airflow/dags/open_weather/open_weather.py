@@ -22,6 +22,9 @@ with open(config_file_path) as config_file:
 
 
 def on_failure_callback(**context):
+    """
+    Callback to show feedback whenever a task in the dag fails.
+    """
     print(f"Task {context['task_instance_key_str']} failed.")
 
 
@@ -38,14 +41,17 @@ default_args = {
 }
 
 
-def create_variable_from_file(var_name, file_path):
+def reads_file(file_path):
+    """
+    Reads a text file.
+    """
     with open(file_path, 'r') as file:
-        api_key = file.read().strip()
-        Variable.set(var_name, api_key)
+        content = file.read().strip()
+        return content
 
 def create_connection_if_not_exists(conn_id, conn_type, host, port, login, password, schema):
     """
-    Create a connection if it does not already exist.
+    Create an airflow connection if it does not already exist.
     """
     print("Will attempt connection creation") # TODO use a logger
     conn = Connection(
@@ -71,6 +77,9 @@ def create_connection_if_not_exists(conn_id, conn_type, host, port, login, passw
 
 
 def download_weather_data(**kwargs):
+    """
+    Downloads open weather data to a given path. Used in airflow tasks.
+    """
     templates_dict = kwargs["templates_dict"]
     api_key = templates_dict["api_key"]
     date = templates_dict["date"]
@@ -98,10 +107,13 @@ def download_weather_data(**kwargs):
 
                     }
                     all_cities_list.append(to_write_city_json)
-        json.dump(all_cities_list, new_file)
+        new_file.write(json.dumps(all_cities_list))
 
 
 def insert_data_mongo(**kwargs):
+    """
+    Inserts json data from a given path into the mongodb collection
+    """
     templates_dict = kwargs["templates_dict"]
     data_path = templates_dict["data_path"]
     json_data = json.load(open(data_path))
@@ -117,18 +129,23 @@ def insert_data_mongo(**kwargs):
     hook.insert_many("city_weather", json_data, "weatherdb")
 
 
+# The following code should only be run once, so ideally it would be in an __init__ file but airflow works differently and that's not possible like in a standard python project
+# Must reserach further on how to achieve this TODO
 
-# Create api key variable for the weather api TODO put this in a init file?
+# Create api key variable for the weather api
 api_var_name = "weather-api-key"
 api_key_path = proj_config_path.joinpath('weather_api_key.txt').resolve()
-create_variable_from_file(api_var_name, api_key_path)
+api_key = reads_file(api_key_path)
+Variable.set(api_var_name, api_key)
 # Mask api key
 mask_secret(Variable.get(api_var_name))
 
+# Get configuration
 cities = weather_config["country_list"]
 weather_api_key = Variable.get("weather-api-key")
 
 # Create connection if does not exist
+# Add this mongo variables in a config file TODO
 create_connection_if_not_exists("mongodb_con", "MongoDB", "mongo", "27017", "mongo", "mongo", "weatherdb")
 
 # Make sure there is a data folder
