@@ -62,7 +62,7 @@ All these tasks are sequentially dependant, and run daily.
 
 ## Testing
 Should have a docker container for the tests (it's in the next steps). For now a `testing_requirements.txt` file was created for a venv creation.
-To test make sure you have virtualenv installed and run `virtualenv venv`. Source the venv with `source venv/bin/activate` and install the requirements with `pip install -r requirements.txt`.
+To test make sure you have virtualenv installed and run `virtualenv venv`. Source the venv with `source venv/bin/activate` and install the requirements with `pip install -r testing_requirements.txt`.
 Then, execute `pytest` within the tests folder.
 
 ## Next steps

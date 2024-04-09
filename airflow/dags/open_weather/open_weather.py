@@ -52,6 +52,7 @@ def reads_file(file_path):
     except FileNotFoundError:
         print("Error: File not found.")
 
+
 def create_connection_if_not_exists(conn_id, conn_type, host, port, login, password, schema):
     """
     Create an airflow connection if it does not already exist.
