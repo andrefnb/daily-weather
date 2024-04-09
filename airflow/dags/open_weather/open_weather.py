@@ -43,11 +43,14 @@ default_args = {
 
 def reads_file(file_path):
     """
-    Reads a text file.
+    Reads a text file. Raises an exception if the file is non existent.
     """
-    with open(file_path, 'r') as file:
-        content = file.read().strip()
-        return content
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read().strip()
+            return content
+    except FileNotFoundError:
+        print("Error: File not found.")
 
 def create_connection_if_not_exists(conn_id, conn_type, host, port, login, password, schema):
     """
@@ -90,7 +93,10 @@ def download_weather_data(**kwargs):
 
         # Ideally I would have a single endpoint to consume that would retrieve the data for a list of city names, but there is no such endpoint
         for city_name in templates_dict["cities"]:
-            weather_endpoint = f"/data/2.5/weather?q={city_name}&appid={api_key}"
+            # Delete spaces from names
+            name = city_name.replace(" ", "+")
+            print(name)
+            weather_endpoint = f"/data/2.5/weather?q={name}&appid={api_key}"
             weather_uri = f"https://api.openweathermap.org{weather_endpoint}"
 
             with urllib.request.urlopen(weather_uri) as file:
