@@ -50,8 +50,8 @@ To run the project, one needs to execute the following commands in the project r
 To select which cities the data is to be retrieved from, the property `country_list` in the `./airflow/dags/open_weather/config/open-weather.json` file must be edited.
 Add, edit, or remove whatever cities you want.
 
-In order to make open weather API requests, the file `./airflow/dags/open_weather/config/weather_api_key.txt` must be 
-created with the API key to be usethat was added d - it's enough to have just its value, nothing else is needed.
+In order to make open weather API requests, the file `./airflow/dags/open_weather/config/weather_api_key.txt` must be created with the API key to be used - it's enough to have just its value, nothing else is needed.
+This is very important, otherwise a specific error related to this will appear in the airflow dags page (Exception: Weather API Key not found).
 
 To access the airflow client go to http://localhost:8080/.
 The user and password for airflow are the same: `airflow` - this can be changed on the `docker-compose` file.
